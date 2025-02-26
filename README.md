@@ -1,7 +1,7 @@
-# Tietorakenteet ja algoritmit -kirja
+# Information structures and algorithms book
 
-Kurssikirja Helsingin yliopiston kurssille Tietorakenteet ja algoritmit
+Course book for the University of Helsinki course Information structures and algorithms
 
 https://www.cs.helsinki.fi/u/ahslaaks/tirakirja/
 
-Kirjan lisenssi on Creative Commons BY-NC-SA 4.0.
+The license of the book is Creative Commons BY-NC-SA 4.0.
