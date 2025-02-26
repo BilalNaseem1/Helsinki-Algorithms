@@ -1,267 +1,267 @@
-\chapter{Johdanto}
+\chapter{Introduction}
 
-Kurssin \emph{Tietorakenteet ja algoritmit} tarkoituksena
-on opettaa menetelmiä, joiden avulla voimme ratkaista
-\emph{tehokkaasti} laskennallisia ongelmia.
-Ohjelmoinnin peruskurssit ovat keskittyneet
-ohjelmointitaidon opetteluun.
-Nyt on aika siirtyä askel eteenpäin ja alkaa kiinnittää
-huomiota myös siihen, miten nopeasti algoritmit toimivat.
+Purpose of the course \emph{Data structures and algorithms}
+is to teach methods by which we can solve
+\emph{effectively} computational problems.
+Basic programming courses are focused
+for learning programming skills.
+Now it's time to go one step further and start pinning
+also pay attention to how fast the algorithms work.
 
-Algoritmien tehokkuudella on suuri merkitys käytännössä.
-Esimerkiksi netissä toimiva reittiopas on käyttökelpoinen sen vuoksi,
-että se antaa ehdotuksen reitistä heti sen jälkeen, kun olemme
-ilmoittaneet, mistä mihin haluamme matkustaa.
-Jos reittiehdotusta pitäisi odottaa vaikkapa minuutti tai tunti,
-tämä rajoittaisi paljon palvelun käyttöä.
+The efficiency of algorithms is of great importance in practice.
+For example, an online route guide is useful because
+that it gives a suggestion of a route right after we are
+have announced where we want to travel to.
+If you have to wait a minute or an hour for a suggested route,
+this would greatly limit the use of the service.
 
-Jotta reittiopas toimisi tehokkaasti, sen taustalla on
-hyvin suunniteltu algoritmi.
-Tällä kurssilla opimme, kuinka voimme luoda itse vastaavia algoritmeja.
-Tutustumme kurssilla sekä algoritmien suunnittelun teoriaan että
-käytäntöön -- haluamme ymmärtää syvällisesti, mistä algoritmeissa on kysymys,
-mutta myös osata toteuttaa niitä käytännössä.
+In order for the route guide to work effectively, it is based on
+well designed algorithm.
+In this course we will learn how we can create similar algorithms ourselves.
+In the course, we get to know both the theory of algorithm design and
+into practice -- we want to deeply understand what algorithms are about,
+but also know how to implement them in practice.
 
-\section{Mitä algoritmit ovat?}
+\section{What are algorithms?}
 
-\index{algoritmi}
-\index{syöte}
-\index{tuloste}
+\index{algorithms}
+\index{input}
+\index{printout}
 
-\emph{Algoritmi} (\emph{algorithm}) on toimintaohje, jota seuraamalla voimme ratkaista
-jonkin laskennallisen ongelman.
-Algoritmille annetaan \emph{syöte} (\emph{input}),
-joka kuvaa ratkaistavan ongelman tapauksen,
-ja algoritmin tulee tuottaa \emph{tuloste} (\emph{output}),
-joka on vastaus sille annettuun syötteeseen.
+\emph{Algorithm} is a procedure that we can follow to solve
+some computational problem.
+The algorithm is given \emph{input} (\emph{input}),
+which describes the case of the problem to be solved,
+and the algorithm must produce \emph{output},
+which is a response to the input given to it.
 
-Tarkastellaan esimerkkinä ongelmaa,
-jossa syötteenä on $n$ kokonaislukua sisältävä lista ja
-tehtävänä on laskea lukujen summa.
-Esimerkiksi jos syöte on $[2,4,1,8]$,
-haluttu tuloste on 15, koska $2+4+1+8=15$.
-Voimme ratkaista tämän ongelman algoritmilla,
-joka käy luvut läpi silmukalla ja laskee niiden
-summan muuttujaan.
+As an example, consider the problem,
+where the input is a list containing $n$ integers and
+the task is to calculate the sum of the numbers.
+For example, if the input is $[2,4,1,8]$,
+the desired output is 15 because $2+4+1+8=15$.
+We can solve this problem with an algorithm,
+which loops through the numbers and counts them
+to the amount variable.
 
-Algoritmin toiminnan esittämiseen on useita mahdollisuuksia.
-Yksi tapa on selostaa sanallisesti, kuinka algoritmi toimii,
-kuten teimme äsken.
-Toinen tapa taas on antaa jollain ohjelmointikielellä
-kirjoitettu koodi, joka toteuttaa algoritmin.
-Esimerkiksi voimme toteuttaa lukujen summan laskevan
-algoritmin näin Java- ja Python-kielillä:
+There are several possibilities for representing the operation of the algorithm.
+One way is to verbally explain how the algorithm works,
+as we just did.
+Another way is to give in some programming language
+written code that implements the algorithm.
+For example, we can make the sum of the numbers count
+this is how the algorithm works in Java and Python:
 
 \begin{code}
-int summa = 0;
-for (int i = 0; i < n; i++) {
-    summa += luvut[i];
-}
-System.out.println(summa);
+    int sum = 0;
+    for (int i = 0; i < n; i++) {
+            sum+= numbers[i];
+        }
+    System.out.println(sum);
 \end{code}
 
 \begin{code}
-summa = 0
-for i in range(n):
-    summa += luvut[i]
-print(summa)
+    sum= 0
+    for i in range(n):
+    sum+= numbers[i]
+    print(sum )
 \end{code}
 
-\index{pseudokoodi}
+\index{pseudocode}
 
-Voimme myös esittää algoritmin \emph{pseudokoodina} (\emph{pseudocode})
-todellisen ohjelmointikielen sijasta.
-Tämä tarkoittaa, että kirjoitamme koodia,
-joka on lähellä käytössä olevia ohjelmointikieliä, mutta voimme
-päättää koodin tarkan kirjoitusasun itse ja ottaa joitakin vapauksia,
-joiden ansiosta voimme kuvata algoritmin mukavammin.
-Voisimme esimerkiksi esittää äskeisen algoritmin pseudokoodina seuraavasti:
+We can also represent the algorithm using \textbf{pseudocode} instead of an actual programming language.
+This means we write code that closely resembles real programming languages but allows us to decide the exact syntax and take some liberties, making it easier to describe the algorithm.
+For example, we can present the recent algorithm in pseudocode as follows:
 
 \begin{code}
-summa = 0
-for i = 0 to n-1
-    summa += luvut[i]
-print(summa)
+    sum = 0
+    for i = 0 to n-1
+    sum += numbers[i]
+    print(sum)
 \end{code}
 
-Pseudokoodin merkintätapoja on monenlaisia, ja
-käytämme tässä kirjassa melko paljon Python-kieltä muistuttavaa pseudokoodia.
-Esitämme algoritmeja pseudokoodin avulla,
-koska kurssi käsittelee yleistä ohjelmoinnin teoriaa,
-joka ei liity tiettyyn ohjelmointikieleen.
-Tämän lisäksi tutustumme siihen, miten tietyt algoritmit
-ja tietorakenteet on toteutettu Javan ja Pythonin
-standardikirjastoissa.
+There are many ways to notate pseudocode, and
+we use quite a lot of Python-like pseudocode in this book.
+We present algorithms using pseudocode,
+because the course deals with general programming theory,
+which is not related to a specific programming language.
+In addition to this, we will get to know how certain algorithms
+and data structures are implemented in Java and Python
+in standard libraries.
 
-\section{Ohjelmoinnin peruspalikat}
+\section{The basic building blocks of programming}
 
-Kiehtova seikka ohjelmoinnissa on, että monimutkaisetkin algoritmit
-syntyvät yksinkertaisista aineksista.
-Käymme seuraavaksi läpi ohjelmoinnin peruspalikat,
-jotka muodostavat pohjan algoritmien suunnittelulle.
+An intriguing aspect of programming is that even complex algorithms are built from simple components.
+Next, we will go through the fundamental building blocks of programming, which form the foundation for designing algorithms.
 
-\subsubsection{Muuttuja}
+\subsubsection{Varia}
 
-\index{muuttuja}
-\emph{Muuttuja} (\emph{variable}) sisältää algoritmin
-käsittelemää tietoa.
-Pseudokoodissa käytäntönä on, että voimme käyttää muuttujia
-suoraan ilman erillistä määrittelyä:
+\subsubsection{Variable}
+
+\index{variable}
+\emph{Variable} (\emph{muuttuja}) contains the data processed by the algorithm.
+In pseudocode, it is common practice to use variables directly without separate declarations:
+
 
 \begin{code}
-a = 5
-b = 7
-c = a+b
+    a = 5
+    b = 7
+    c = a+b
 \end{code}
 
-\subsubsection{Ehtolause}
+\subsubsection{Conditional Statement}
 
-\index{ehtolause}
-\emph{Ehtolause} (\emph{conditional statement}) saa ohjelman
-toiminnan haarautumaan.
-Käytämme pseudokoodissa seuraavaa syntaksia:
+\index{conditional statement}
+\emph{Conditional statement} (\emph{ehtolause}) allows the program's execution to branch.
+In pseudocode, we use the following syntax:
+
 
 \begin{code}
-if x%2 == 0
-    print("parillinen")
-else
-    print("pariton")
+    if x%2 == 0
+    print("even")
+    else
+    print("odd")
 \end{code}
 
-\subsubsection{Silmukka}
+\subsubsection{Loop}
 
-\index{silmukka}
-\emph{Silmukka} (\emph{loop}) toistaa sen sisällä olevaa koodia.
-Merkitsemme pseudokoodissa seuraavasti for-silmukan,
-joka käy läpi luvut väliltä 1--100:
+\index{loop}
+\emph{Loop} repeats the code inside it.
+In pseudocode, we denote a for-loop that iterates through the numbers from 1 to 100 as follows:
+
 
 \begin{code}
-for i = 1 to 100
+    for i = 1 to 100
     print(i)
 \end{code}
 
-Seuraava for-silmukka käy puolestaan läpi listassa olevat alkiot:
+The following for-loop, in turn, iterates through the elements in a list:
+
 
 \begin{code}
-for x in lista
+    for x in list
     print(x)
 \end{code}
 
-Toinen silmukkatyyppi on while-silmukka, joka toistaa koodia niin kauan
-kuin silmukan alussa annettu ehto on voimassa.
-Esimerkiksi seuraava silmukka jatkuu niin kauan kuin $x$:n arvo on ainakin 1:
+Another type of loop is the while-loop, which repeats the code as long as the condition given at the beginning of the loop holds.
+For example, the following loop continues as long as the value of $x$ is at least 1:
+
 
 \begin{code}
-while x >= 1
+    while x >= 1
     print(x)
     x /= 2
 \end{code}
 
-\subsubsection{Taulukko}
+\subsubsection{Array}
 
-\index{taulukko}
-\index{indeksi}
+\index{array}
+\index{index}
 
-Ohjelmoinnin perustana oleva tietorakenne on \emph{taulukko} (\emph{array}),
-joka sisältää kokoelman peräkkäin olevia alkioita.
-Voimme viitata taulukon alkioihin \texttt{[]}-syntaksilla:
+A fundamental data structure in programming is the \emph{array} (\emph{taulukko}),
+which contains a collection of sequential elements.
+We can refer to array elements using the \texttt{[]} syntax:
+
 
 \begin{code}
-luvut[0] = 4
-luvut[3] = 2
+    numbers[0] = 4
+    numbers[3] = 2
 \end{code}
 
-Noudatamme kirjassa yleistä käytäntöä, jossa taulukon alkiot on indeksoitu
-$0,1,\dots,n-1$, kun taulukossa on $n$ alkiota.
+We follow the common convention in this book where the elements of an array are indexed
+as $0,1,\dots,n-1$ when the array contains $n$ elements.
 
-Taulukon ominaisuuksia ovat, että siinä on kiinteä määrä alkioita ja
-pääsemme tehokkaasti käsiksi mihin tahansa alkioon indeksin perusteella.
-Taulukko vastaa tiedon tallennustapaa tietokoneen muistissa,
-ja voimme toteuttaa taulukon avulla minkä tahansa muun tietorakenteen.
+An array has the properties that it contains a fixed number of elements
+and allows efficient access to any element based on its index.
+An array corresponds to the way data is stored in a computer's memory,
+and we can use arrays to implement any other data structure.
 
-\index{lista}
+\index{list}
 
-Taulukolla on ollut vahva asema perinteisissä ohjelmointikielissä,
-mutta tilanne on muuttumassa.
-Taulukko on Javan perustietorakenne, mutta Pythonissa
-taulukon sijasta perustietorakenne onkin \emph{lista} (\emph{list}).
-Voimme käyttää kuitenkin Pythonin listaa taulukon tavoin,
-koska ainoa olennainen ero on, että sen koko voi muuttua.
-Listan sisäinen toteutus perustuu taulukkoon,
-ja luvussa 4 näemme, miten tämä tapahtuu käytännössä.
+The table has had a strong position in traditional programming languages, but the situation is changing.
+An array is a basic data structure in Java, but in Python
+instead of a table, the basic data structure is \emph{list}.
+However, we can use a Python list like a table,
+because the only essential difference is that its size can change.
+The internal implementation of the list is based on a table,
+and in Chapter 4 we will see how this happens in practice.
 
-\subsubsection{Aliohjelmat}
+\subsubsection{Subroutines}
 
-\index{aliohjelma}
-\index{proseduuri}
-\index{funktio}
+\index{subroutine}
+\index{procedure}
+\index{function}
 
-Käytämme kirjassa termiä \emph{proseduuri} (\emph{procedure})
-aliohjelmasta, jolla ei ole palautusarvoa,
-ja termiä \emph{funktio} (\emph{function}) aliohjelmasta, jolla on palautusarvo.
-Esimerkiksi seuraava proseduuri tulostaa luvut $1 \dots n$:
+In this book, we use the term \emph{procedure} (\emph{proseduuri})
+for a subroutine that does not return a value,
+and the term \emph{function} (\emph{funktio})
+for a subroutine that returns a value.
+
+For example, the following procedure prints the numbers $1 \dots n$:
 
 \begin{code}
-procedure tulosta(n)
+    procedure print(n)
     for i = 1 to n
-        print(i)
+    print(i)
 \end{code}
 
-Seuraava funktio puolestaan laskee lukujen $1 \dots n$ summan:
+
+The following function, on the other hand, calculates $1 \dots n$ of numbers amount:
 
 \begin{code}
-function summa(n)
+    function sum(n)
     s = 0
     for i = 1 to n
-        s += i
+    s += i
     return s
 \end{code}
 
-Aliohjelmiin liittyvä termistö vaihtelee ohjelmointikielen mukaan:
-esimerkiksi Javassa käytetään molemmissa tapauksissa termiä
-\emph{metodi} ja Pythonissa käytetään termiä \emph{funktio} tai
-\emph{metodi} tilanteesta riippuen.
+The terminology related to subroutines varies depending on the programming language:
+for example, in Java, the term \emph{method} is used in both cases,
+while in Python, the terms \emph{function} or \emph{method} are used depending on the context.
 
-\subsubsection{Rekursio}
+\subsubsection{Recursion}
 
-\index{rekursio}
+\index{recursion}
 
-Usein algoritmien suunnittelussa esiintyvä ohjelmointitekniikka on
-\emph{rekursio} (\emph{recursion}),
-joka tarkoittaa, että aliohjelma kutsuu itseään.
-Tässä on yksi esimerkki rekursion käyttämisestä:
+A common programming technique in algorithm design is
+\emph{recursion} (\emph{rekursio}),
+which means that a subroutine calls itself.
+
+Here is an example of using recursion:
 
 \begin{code}
-procedure testi(n)
+    procedure test(n)
     if n == 0
-        return
+    return
     else
-        print("moikka")
-        testi(n-1)
+    print("hello")
+    test(n-1)
 \end{code}
 
-Tämä proseduuri tulostaa $n$ kertaa rivin "moikka".
-Esimerkiksi kutsu \texttt{testi}(3) saa aikaan seuraavan tulostuksen:
+
+This procedure prints the line "hello" $n$ times.
+For example, the call \texttt{test}(3) produces the following output:
 
 \begin{code}
-moikka
-moikka
-moikka
+    hello
+    hello
+    hello
 \end{code}
 
-Ideana on, että jos $n=0$, proseduuri ei tee mitään,
-koska ei ole mitään tulostettavaa.
-Muussa tapauksessa proseduuri tulostaa rivin "moikka"
-ja kutsuu sitten itseään parametrilla $n-1$.
+The idea is that if $n=0$, the procedure does nothing,
+because there is nothing to print.
+Otherwise, the procedure prints the line "hello"
+and then calls itself with the parameter $n-1$.
 
-Käytämme rekursiota usein kurssin aikana,
-ja tutustumme pikkuhiljaa tarkemmin sen mahdollisuuksiin.
+We use recursion often during the course,
+and little by little we get to know its possibilities in more detail.
 
 \subsubsection{***}
 
-Olemme nyt käyneet läpi ainekset,
-joiden avulla voimme toteuttaa \emph{minkä tahansa} algoritmin.
-On huojentava tieto, että näinkin pieni määrä tekniikoita
-riittää algoritmien suunnittelussa.
-Nyt kaikki on vain kiinni siitä, miten osaamme \emph{soveltaa}
-näitä tekniikoita eri tilanteissa.
+We have now gone through the ingredients,
+which allow us to implement \emph{any} algorithm.
+It is reassuring to know that even such a small number of techniques
+is sufficient for designing algorithms.
+Now it's all about how we know how to \emph{apply}
+these techniques in different situations.
