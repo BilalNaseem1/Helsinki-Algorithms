@@ -1,0 +1,9 @@
+# Fdb version 4
+["pdflatex"] 0 "tirakirja.tex" "out/tirakirja.pdf" "tirakirja" 0 -1
+  "out/tirakirja.aux" 0 -1 0 "pdflatex"
+  "tirakirja.tex" 0 -1 0 ""
+  (generated)
+  "out/tirakirja.aux"
+  "out/tirakirja.log"
+  "out/tirakirja.pdf"
+  (rewritten before read)

@@ -1,15 +1,11 @@
-\documentclass[twoside,12pt,a4paper,finnish]{book}
-%\includeonly{luku01}
-
+\documentclass[twoside,12pt,a4paper,english]{book}
+%\includeonly{chapter01}
 \usepackage[utf8]{inputenc}
-\usepackage[finnish]{babel}
-
+\usepackage[english]{babel}
 \usepackage{makeidx}
 \usepackage{graphicx}
 \usepackage{multicol}
-
 \usepackage{listings}
-
 \usepackage{tikz}
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -17,86 +13,62 @@
 \usepackage{enumitem}
 \usepackage{hyperref}
 \usepackage{pifont}
-
 \usepackage[format=plain,font=it]{caption}
-
 \usetikzlibrary{decorations.pathreplacing}
-
 \hypersetup{
-    colorlinks,
-    citecolor=black,
-    filecolor=black,
-    linkcolor=black,
-    urlcolor=black
+ colorlinks,
+ citecolor=black,
+ filecolor=black,
+ linkcolor=black,
+ urlcolor=black
 }
-
 \makeindex
-
 \lstset{language=C++,frame=single,basicstyle=\ttfamily \small,showstringspaces=false,columns=flexible,texcl=true}
 \lstset{xleftmargin=20pt,xrightmargin=5pt}
 \lstset{aboveskip=12pt,belowskip=8pt,float}
-
 \lstnewenvironment{code}[1][]%
 {
-   \noindent
-   \minipage{\linewidth} 
-   \vspace{0.5\baselineskip}
-   \lstset{#1}}
+\noindent
+\minipage{\linewidth}
+\vspace{0.5\baselineskip}
+\lstset{#1}}
 {\endminipage}
-
 \begin{document}
-
-\selectlanguage{finnish}
-
+\selectlanguage{english}
 \author{Antti Laaksonen}
-\title{Tietorakenteet ja algoritmit}
+\title{Data Structures and Algorithms}
 \date{}
 \maketitle
-
 \thispagestyle{empty}
 ~\\
 \vspace{16cm}
 ~\\
-Tietorakenteet ja algoritmit \\
+Data Structures and Algorithms \\
 Antti Laaksonen \\
-Helsingin yliopisto, 2022 \\
+University of Helsinki, 2022 \\
 ISBN 978-951-51-8804-5 \\
-
 \frontmatter
-
-\include{luku00}
-
+\include{chapter00}
 \tableofcontents
-
 \mainmatter
-
-\include{luku01}
-\include{luku02}
-\include{luku03}
-\include{luku04}
-\include{luku05}
-\include{luku06}
-\include{luku07}
-\include{luku08}
-\include{luku09}
-\include{luku10}
-\include{luku11}
-\include{luku12}
-\include{luku13}
-\include{luku14}
-\include{luku15}
-
+\include{chapter01}
+\include{chapter02}
+\include{chapter03}
+\include{chapter04}
+\include{chapter05}
+\include{chapter06}
+\include{chapter07}
+\include{chapter08}
+\include{chapter09}
+\include{chapter10}
+\include{chapter11}
+\include{chapter12}
+\include{chapter13}
+\include{chapter14}
+\include{chapter15}
 \appendix
-\include{liite1}
-%\include{liite2}
-
+\include{appendix1}
+%\include{appendix2}
 \backmatter
 \printindex
-
 \end{document}
-
-
-
-
-
-
