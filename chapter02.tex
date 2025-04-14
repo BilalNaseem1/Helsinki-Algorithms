@@ -1,185 +1,163 @@
-\chapter{Tehokkuus}
+\chapter{Efficiency}
 
-Algoritmien suunnittelussa tavoitteena on saada aikaan
-algoritmeja, jotka toimivat \emph{tehokkaasti}.
-Haluamme luoda algoritmeja, joiden avulla voidaan
-käsitellä myös suuria aineistoja ilman,
-että algoritmin suoritus kestää kauan.
-Ajattelemmekin, että algoritmi on \emph{hyvä},
-jos se antaa nopeasti vastauksen myös silloin,
-kun tiedon määrä on suuri.
+The goal in algorithm design is to create algorithms that work \emph{efficiently}. We want to develop algorithms that can handle large datasets without taking too long to execute. We consider an algorithm to be \emph{good} if it provides a quick response even when the amount of data is large.
 
-Tässä luvussa tutustumme työkaluihin, joiden avulla
-voimme arvioida algoritmien tehokkuutta.
-Keskeinen käsite on \emph{aikavaativuus}, joka antaa
-tiiviissä muodossa kuvauksen algoritmin ajankäytöstä.
-Aikavaativuuden avulla voimme muodostaa arvion
-algoritmin tehokkuudesta sen rakenteen perusteella,
-eikä meidän tarvitse toteuttaa ja testata algoritmia
-vain saadaksemme tietää, miten nopea se on.
+In this chapter, we will explore tools that allow us to assess the efficiency of algorithms. A key concept is \emph{time complexity}, which concisely describes the time usage of an algorithm. With time complexity, we can estimate an algorithm's efficiency based on its structure without having to implement and test the algorithm just to determine how fast it is.
 
-\section{Aikavaativuus}
+\section{Time Complexity}
 
-\index{aikavaativuus}
+\index{time complexity}
 
-Algoritmin tehokkuus riippuu siitä, montako askelta se suorittaa.
-Tavoitteemme on nyt arvioida algoritmin askelten määrää
-suhteessa syötteen kokoon $n$.
-Esimerkiksi jos syötteenä on taulukko,
-$n$ on taulukon koko,
-ja jos syötteenä on merkkijono,
-$n$ on merkkijonon pituus.
+The efficiency of an algorithm depends on how many steps it performs. Our goal is to estimate the number of steps the algorithm takes in relation to the input size $n$. For example, if the input is an array, $n$ is the size of the array, and if the input is a string, $n$ is the length of the string.
 
-Tarkastellaan esimerkkinä seuraavaa algoritmia,
-joka laskee, montako kertaa alkio $x$ esiintyy
-$n$ lukua sisältävässä taulukossa.
+Let’s consider an example algorithm that counts how many times the element $x$ appears in an array containing $n$ numbers.
 
 \begin{code}[numbers=left]
-laskuri = 0
-for i = 0 to n-1
-    if luvut[i] == x
-        laskuri += 1
+    counter = 0
+    for i = 0 to n-1
+    if numbers[i] == x
+    counter += 1
 \end{code}
 
-Voimme arvioida algoritmin tehokkuutta tutkimalla
-jokaisesta rivistä, montako kertaa algoritmi suorittaa sen.
-Rivi 1 suoritetaan vain kerran algoritmin alussa.
-Tämän jälkeen alkaa silmukka, jossa
-rivit 2 ja 3 suoritetaan molemmat $n$ kertaa
-ja rivi 4 puolestaan suoritetaan $0 \dots n$
-kertaa riippuen siitä, kuinka usein
-luku $x$ esiintyy taulukossa.
-Algoritmi suorittaa siis vähintään $2n+1$ ja enintään $3n+1$
-askelta.
+We can evaluate the efficiency of the algorithm by analyzing how many times each line is executed. Line 1 is executed only once at the start of the algorithm. Then, the loop begins, where lines 2 and 3 are each executed $n$ times, and line 4 is executed between $0$ and $n$ times, depending on how often the number $x$ appears in the array.
 
-\index{$O$-merkintä}
+Thus, the algorithm performs at least $2n+1$ and at most $3n+1$ steps.
 
-Näin tarkka analyysi ei ole kuitenkaan yleensä tarpeen,
-vaan riittää määrit\-tää karkea \emph{yläraja} ajankäytölle.
-Algoritmi toimii ajassa $O(f(n))$ eli sen
-\emph{aikavaativuus} (\emph{time complexity}) on $O(f(n))$, jos se suorittaa
-enintään $c f(n)$ askelta aina silloin kun $n \ge n_0$,
-missä $c$ ja $n_0$ ovat vakioita.
-Esimerkiksi äskeinen algoritmi toimii ajassa $O(n)$,
-koska se suorittaa enintään $4n$ askelta
-kaikilla $n$:n arvoilla eli voidaan valita $c=4$ ja $n_0=1$.
+\index{$O$-notation}
 
-\subsection{Laskusääntöjä}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Aikavaativuuden mukavana puolena on, että voimme yleensä
-päätellä aikavaativuuden helposti algoritmin
-rakenteesta. Tutustumme seuraavaksi laskusääntöihin,
-joiden avulla tämä on mahdollista.
+A detailed analysis like this is usually not necessary;
+it is sufficient to determine a rough \emph{upper bound} for time usage.
+An algorithm runs in time $O(f(n))$, meaning its
+\emph{time complexity} is $O(f(n))$, if it executes at most
+$c f(n)$ steps whenever $n \ge n_0$, where $c$ and $n_0$ are constants.
+For example, the previous algorithm runs in time $O(n)$
+because it executes at most $4n$ steps for all values of $n$,
+meaning we can choose $c=4$ and $n_0=1$.
 
-\subsubsection{Yksittäiset komennot}
+\subsection{Calculation Rules}
 
-Jos koodissa ei ole silmukoita vaan vain
-yksittäisiä komentoja, sen aikavaativuus on $O(1)$.
-Näin on esimerkiksi seuraavassa koodissa:
+One of the advantages of time complexity is that we can usually
+determine it easily from the structure of the algorithm.
+Next, we will explore calculation rules that make this possible.
+
+\subsubsection{Single Commands}
+
+If the code does not contain loops but only
+individual commands, its time complexity is $O(1)$.
+This is the case, for example, in the following code:
 
 \begin{code}
-c = a+b
-if c >= 0
+    c = a+b
+    if c >= 0
     print(c)
 \end{code}
 
-\subsubsection{Silmukat}
+\subsubsection{Loops}
 
-Merkitsemme \texttt{...} koodia,
-jonka aikavaativuus on $O(1)$.
-Jos koodissa on yksi silmukka,
-joka suorittaa $n$ askelta,
-sen aikavaativuus on $O(n)$:
+We use \texttt{...} to represent code
+with time complexity $O(1)$.
+If the code contains a single loop
+that executes $n$ steps,
+its time complexity is $O(n)$:
 
 \begin{code}
-for i = 1 to n
+    for i = 1 to n
     ...
 \end{code}
 
-Jos tällaisia silmukoita on kaksi sisäkkäin,
-aikavaativuus on $O(n^2)$:
+If there are two nested loops of this kind,
+the time complexity is $O(n^2)$:
 
 \begin{code}
-for i = 1 to n
+    for i = 1 to n
     for j = 1 to n
-        ...
+    ...
 \end{code}
 
-Yleisemmin jos koodissa on vastaavalla tavalla
-$k$ sisäkkäistä silmukkaa, sen aikavaativuus on $O(n^k)$.
+More generally, if the code contains
+$k$ nested loops in a similar manner, its time complexity is $O(n^k)$.
 
-\index{vakiokerroin}
+\index{constant factor}
 
-Huomaa, että vakiokertoimet ja matalammat termit eivät vaikuta aikavaativuuteen.
-Esimerkiksi seuraavissa koodeissa silmukoissa on $2n$ ja $n-1$ askelta,
-mutta kummankin koodin aikavaativuus on $O(n)$.
+Note that constant factors and lower-order terms do not affect time complexity.
+For example, in the following code snippets, the loops execute $2n$ and $n-1$ steps,
+but the time complexity of both codes is still $O(n)$.
 
 \begin{code}
-for i = 1 to 2*n
+    for i = 1 to 2*n
     ...
 \end{code}
 
 \begin{code}
-for i = 1 to n-1
+    for i = 1 to n-1
     ...
 \end{code}
 
-\subsubsection{Peräkkäiset osuudet}
 
-Jos koodissa on peräkkäisiä osuuksia, sen aikavaativuus on suurin
-yksittäisen osuuden aikavaativuus. Esimerkiksi seuraavan koodin aikavaativuus on $O(n^2)$,
-koska sen osuuksien aikavaativuudet ovat $O(n)$, $O(n^2)$ ja $O(n)$.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsubsection{Sequential Sections}
+
+If the code has sequential sections, its time complexity is the largest
+time complexity of a single section. For example, the following code has a time complexity of $O(n^2)$,
+because its sections have time complexities of $O(n)$, $O(n^2)$, and $O(n)$.
 
 \begin{code}
-for i = 1 to n
+    for i = 1 to n
     ...
-for i = 1 to n
+    for i = 1 to n
     for j = 1 to n
-        ...
-for i = 1 to n
+    ...
+    for i = 1 to n
     ...
 \end{code}
 
-\subsubsection{Monta muuttujaa}
+\subsubsection{Multiple Variables}
 
-Joskus aikavaativuus riippuu useammasta asiasta,
-jolloin kaavassa on monta muuttujaa.
-Esimerkiksi seuraavan koodin aikavaativuus on $O(nm)$:
+Sometimes, the time complexity depends on multiple factors,
+which means the formula has multiple variables.
+For example, the following code has a time complexity of $O(nm)$:
 
 \begin{code}
-for i = 1 to n
+    for i = 1 to n
     for j = 1 to m
-        ...
+    ...
 \end{code}
 
-\subsubsection{Rekursiiviset algoritmit}
+\subsubsection{Recursive Algorithms}
 
-Rekursiivisessa algoritmissa laskemme,
-montako rekursiivista kutsua teh\-dään ja kauanko
-yksittäinen kutsu vie aikaa.
-Tarkastellaan esimerkkinä seuraavaa
-proseduuria, jota kutsutaan parametrilla $n$:
+In a recursive algorithm, we calculate
+how many recursive calls are made and how long
+a single call takes.
+Let's consider the following
+procedure, which is called with the parameter $n$:
 
 \begin{code}
-procedure f(n)
+    procedure f(n)
     if n == 1
-        return
+    return
     f(n-1)
 \end{code}
 
-Proseduuria kutsutaan yhteensä $n$ kertaa ja jokainen kutsu vie aikaa $O(1)$.
-Saamme selville proseduurin aikavaativuuden kertomalla nämä arvot keskenään,
-joten proseduuri vie aikaa $O(n)$.
+The procedure is called a total of $n$ times, and each call takes $O(1)$ time.
+We determine the time complexity of the procedure by multiplying these values together,
+so the procedure takes $O(n)$ time.
 
-Tarkastellaan sitten seuraavaa proseduuria:
+Now, let's consider the following procedure:
 
 \begin{code}
-procedure g(n)
+    procedure g(n)
     if n == 1
-        return
+    return
     g(n-1)
     g(n-1)
 \end{code}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Tässä tapauksessa jokainen proseduurin kutsu tuottaa kaksi uutta kutsua,
 joten proseduuria kutsutaan kaikkiaan
@@ -202,7 +180,7 @@ Esimerkiksi seuraava algoritmi laskee summan $1+2+\dots+n$
 vakioajassa summakaavalla:
 
 \begin{code}
-summa = n*(n+1)/2
+    summa = n*(n+1)/2
 \end{code}
 
 \index{logaritminen algoritmi}
@@ -214,14 +192,16 @@ joka askeleella.
 Esimerkiksi seuraavan algoritmin aikavaativuus on $O(\log n)$:
 
 \begin{code}
-laskuri = 0
-while n >= 1
+    laskuri = 0
+    while n >= 1
     laskuri += 1
     n /= 2
 \end{code}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Tärkeä seikka logaritmeihin liittyen on, että
-$\log n$ on \emph{pieni} luku, kun $n$ on mikä tahansa 
+$\log n$ on \emph{pieni} luku, kun $n$ on mikä tahansa
 tyypillinen algoritmeissa esiintyvä luku.
 Esimerkiksi $\log 10^6 \approx 20$ ja $\log 10^9 \approx 30$,
 kun logaritmin kantaluku on 2.
@@ -236,8 +216,8 @@ siinä ei kulu kauan aikaa.
 Esimerkiksi seuraava $O(n)$-algoritmi laskee taulukon lukujen summan:
 
 \begin{code}
-summa = 0
-for i = 0 to n-1
+    summa = 0
+    for i = 0 to n-1
     summa += taulu[i]
 \end{code}
 
@@ -257,11 +237,11 @@ Esimerkiksi seuraava $O(n \log n)$-aikainen
 algoritmi tarkastaa, onko taulukossa kahta samaa alkiota:
 
 \begin{code}
-sort(taulu) // järjestäminen
-samat = false
-for i = 1 to n-1
+    sort(taulu) // järjestäminen
+    samat = false
+    for i = 1 to n-1
     if taulu[i] == taulu[i-1]
-        samat = true
+    samat = true
 \end{code}
 
 Algoritmi järjestää ensin taulukon, minkä jälkeen yhtä
@@ -283,11 +263,11 @@ Esimerkiksi seuraava $O(n^2)$-algoritmi tutkii, onko taulukossa
 kahta lukua, joiden summa on $x$.
 
 \begin{code}
-ok = false
-for i = 0 to n-1
+    ok = false
+    for i = 0 to n-1
     for j = i+1 to n-1
-        if taulu[i]+taulu[j] == x
-            ok = true
+    if taulu[i]+taulu[j] == x
+    ok = true
 \end{code}
 
 \index{kuutiollinen algoritmi}
@@ -300,12 +280,12 @@ Esimerkiksi seuraava $O(n^3)$-algoritmi tutkii, onko taulukossa
 kolmea lukua, joiden summa on $x$.
 
 \begin{code}
-ok = false
-for i = 0 to n-1
+    ok = false
+    for i = 0 to n-1
     for j = i+1 to n-1
-        for k = j+1 to n-1
-            if taulu[i]+taulu[j]+taulu[k] == x
-                ok = true
+    for k = j+1 to n-1
+    if taulu[i]+taulu[j]+taulu[k] == x
+    ok = true
 \end{code}
 
 \subsubsection{$O(2^n)$ (osajoukot)}
@@ -339,19 +319,19 @@ miten suuria syötteitä algoritmi pystyy käsittelemään,
 vaikka algoritmin kaikki yksityiskohdat eivät olisi tiedossa.
 
 \begin{table}
-\center
-\begin{tabular}{rrr}
-syötteen kokoluokka $n$ & tarvittava aikavaativuus \\
-\hline
-10 & $O(n!)$ \\
-20 & $O(2^n)$ \\
-500 & $O(n^3)$ \\
-5000 & $O(n^2)$ \\
-$10^6$ & $O(n)$ tai $O(n \log n)$ \\
-suuri & $O(1)$ tai $O(\log n)$ \\
-\end{tabular}
-\caption{Kuinka suuren syötteen algoritmi voi käsitellä nopeasti?}
-\label{tab:algteh}
+    \center
+    \begin{tabular}{rrr}
+        syötteen kokoluokka $n$ & tarvittava aikavaativuus \\
+        \hline
+        10                      & $O(n!)$                  \\
+        20                      & $O(2^n)$                 \\
+        500                     & $O(n^3)$                 \\
+        5000                    & $O(n^2)$                 \\
+        $10^6$                  & $O(n)$ tai $O(n \log n)$ \\
+        suuri                   & $O(1)$ tai $O(\log n)$   \\
+    \end{tabular}
+    \caption{Kuinka suuren syötteen algoritmi voi käsitellä nopeasti?}
+    \label{tab:algteh}
 \end{table}
 
 Yksi kiinnostava näkökulma algoritmin tehokkuuteen on,
@@ -401,12 +381,12 @@ monessako tavassa vasen merkki on 0 ja oikea merkki on 1.
 Seuraava koodi toteuttaa algoritmin:
 
 \begin{code}
-laskuri = 0
-for i = 0 to n-1
+    laskuri = 0
+    for i = 0 to n-1
     for j = i+1 to n-1
-        if merkit[i] == 0 and merkit[j] == 1
-            laskuri += 1
-print(laskuri)
+    if merkit[i] == 0 and merkit[j] == 1
+    laskuri += 1
+    print(laskuri)
 \end{code}
 
 Algoritmin aikavaativuus on $O(n^2)$, koska siinä on kaksi
@@ -434,14 +414,14 @@ vastausta tämänhetkisellä merkkien 0 määrällä.
 Seuraava koodi toteuttaa algoritmin:
 
 \begin{code}
-laskuri = 0
-nollat = 0
-for i = 0 to n-1
+    laskuri = 0
+    nollat = 0
+    for i = 0 to n-1
     if merkit[i] == 0
-        nollat += 1
+    nollat += 1
     else
-        laskuri += nollat
-print(laskuri)
+    laskuri += nollat
+    print(laskuri)
 \end{code}
 
 Algoritmissa on vain yksi silmukka, joka käy syötteen läpi,
@@ -468,19 +448,19 @@ Tehokas $O(n)$-algoritmi taas selvittää suuretkin testit
 salamannopeasti.
 
 \begin{table}
-\center
-\begin{tabular}{rrr}
-syötteen koko $n$ & $O(n^2)$-algoritmi & $O(n)$-algoritmi \\
-\hline
-$10$ & 0.00 s & 0.00 s\\
-$10^2$ & 0.00 s & 0.00 s\\
-$10^3$ & 0.00 s & 0.00 s\\
-$10^4$ & 0.14 s & 0.00 s \\
-$10^5$ & 16.22 s & 0.00 s \\
-$10^6$ & - - & 0.01 s \\
-\end{tabular}
-\caption{Algoritmien suoritusaikojen vertailu.}
-\label{tab:algver}
+    \center
+    \begin{tabular}{rrr}
+        syötteen koko $n$ & $O(n^2)$-algoritmi & $O(n)$-algoritmi \\
+        \hline
+        $10$              & 0.00 s             & 0.00 s           \\
+        $10^2$            & 0.00 s             & 0.00 s           \\
+        $10^3$            & 0.00 s             & 0.00 s           \\
+        $10^4$            & 0.14 s             & 0.00 s           \\
+        $10^5$            & 16.22 s            & 0.00 s           \\
+        $10^6$            & - -                & 0.01 s           \\
+    \end{tabular}
+    \caption{Algoritmien suoritusaikojen vertailu.}
+    \label{tab:algver}
 \end{table}
 
 Tämän kurssin jatkuvana teemana on luoda algoritmeja,
@@ -505,12 +485,12 @@ Tutustumme seuraavaksi tarkemmin näihin merkintöihin.
 Algoritmien analysoinnissa usein esiintyviä merkintöjä ovat:
 
 \begin{itemize}
-\item \emph{Yläraja}: Funktio $g(n)$ on luokkaa $O(f(n))$, jos on olemassa vakiot $c$ ja $n_0$
-niin, että $g(n) \le c f(n)$ aina kun $n \ge n_0$.
-\item \emph{Alaraja}: Funktio $g(n)$ on luokkaa $\Omega(f(n))$, jos on olemassa vakiot $c$ ja $n_0$
-niin, että $g(n) \ge c f(n)$ aina kun $n \ge n_0$.
-\item \emph{Tarkka arvio}: Funktio $g(n)$ on luokkaa $\Theta(f(n))$, jos se on sekä luokkaa $O(f(n))$
-että luokkaa $\Omega(f(n))$.
+    \item \emph{Yläraja}: Funktio $g(n)$ on luokkaa $O(f(n))$, jos on olemassa vakiot $c$ ja $n_0$
+          niin, että $g(n) \le c f(n)$ aina kun $n \ge n_0$.
+    \item \emph{Alaraja}: Funktio $g(n)$ on luokkaa $\Omega(f(n))$, jos on olemassa vakiot $c$ ja $n_0$
+          niin, että $g(n) \ge c f(n)$ aina kun $n \ge n_0$.
+    \item \emph{Tarkka arvio}: Funktio $g(n)$ on luokkaa $\Theta(f(n))$, jos se on sekä luokkaa $O(f(n))$
+          että luokkaa $\Omega(f(n))$.
 \end{itemize}
 
 Vakion $c$ tarkoituksena on, että saamme arvion kasvunopeuden suuruusluokalle välittämättä
@@ -530,8 +510,8 @@ Tarkastellaan esimerkkinä seuraavaa algoritmia, joka laskee
 taulukon lukujen summan:
 
 \begin{code}
-summa = 0
-for i = 0 to n-1
+    summa = 0
+    for i = 0 to n-1
     summa += taulu[i]
 \end{code}
 
@@ -544,11 +524,11 @@ Tarkastellaan sitten seuraavaa algoritmia, joka selvittää,
 onko taulukossa lukua $x$:
 
 \begin{code}
-ok = false
-for i = 0 to n-1
+    ok = false
+    for i = 0 to n-1
     if taulu[i] == x
-        ok = true
-        break
+    ok = true
+    break
 \end{code}
 
 Tässä algoritmin pahin ja paras tapaus eroavat.
@@ -606,11 +586,11 @@ Tällaisen ratkaisun tilavaativuus on $O(n)$,
 koska aputaulukko vie $O(n)$ muistia.
 
 \begin{code}
-for i = 0 to n-2
+    for i = 0 to n-2
     mukana[taulu[i]] = true
-for i = 1 to n
+    for i = 1 to n
     if not mukana[i]
-        puuttuva = i
+    puuttuva = i
 \end{code}
 
 Tehtävään on kuitenkin olemassa myös toinen algoritmi,
@@ -620,12 +600,12 @@ ja vähentää sitten taulukossa esiintyvät luvut siitä.
 Jäljelle jäävä luku on puuttuva luku.
 
 \begin{code}
-summa = 0
-for i = 1 to n
+    summa = 0
+    for i = 1 to n
     summa += i
-for i = 0 to n-2
+    for i = 0 to n-2
     summa -= taulu[i]
-puuttuva = summa
+    puuttuva = summa
 \end{code}
 
 Huomaa, että muuttujien ja taulukoiden lisäksi myös \emph{rekursio}
@@ -635,9 +615,9 @@ Esimerkiksi seuraavan proseduurin tilavaativuus on $O(n)$,
 koska muistissa on korkeimmillaan $n$ kerrosta rekursiivisia kutsuja.
 
 \begin{code}
-procedure f(n)
+    procedure f(n)
     if n == 1
-        return
+    return
     f(n-1)
 \end{code}
 
